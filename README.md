@@ -1,84 +1,131 @@
-# Websploit — Metasploit Sidekick
+# Webspoilt
 
-**Websploit** is a lightweight, safety-first companion tool for Metasploit, designed for authorized penetration testers, red-teamers, and security researchers. It helps streamline passive reconnaissance and prepare lawful exploitation workflows.
-
-> ⚠️ **Legal Notice:** Use only on systems you own or have explicit written permission. Misuse against unauthorized targets is illegal. Maintainers are not liable for misuse.
+**Webspoilt** is a Python-based reconnaissance and network testing tool designed for cybersecurity professionals and ethical hackers. It facilitates website information gathering, vulnerability assessment, and performance testing in authorized environments.
 
 ---
 
-## Features
+## Key Features
 
-* **Passive Reconnaissance:** Gather DNS, HTTP(S) metadata, TLS certificate details, robots.txt, sitemap.xml, and more.
-* **Safe Handoff to Metasploit:** Generate sanitized resource files and exports for in-scope engagements.
-* **Report Exports:** JSON, CSV, and human-readable formats.
-* **Sandbox Mode:** Test safely against lab VMs.
-
-> All features are passive or low-impact. Active scanning requires explicit enabling and authorization.
-
----
-
-## Installation
-
-Recommended to run inside an isolated VM or container (Kali, Parrot, Ubuntu LTS):
-
-```bash
-git clone https://github.com/your-org/websploit.git
-cd websploit
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
+* **Comprehensive Website Reconnaissance** – Gather detailed information about target websites.
+* **Stress & Performance Testing** – Assess website robustness and identify potential bottlenecks.
+* **Cross-Platform Compatibility** – Works across multiple operating systems.
 
 ---
 
 ## Supported Platforms
 
-| OS / Environment    | Recommended Execution Environment |
-| ------------------- | --------------------------------- |
-| Kali Linux          | VM or dedicated test workstation  |
-| Parrot Security OS  | VM                                |
-| Ubuntu LTS (22.04+) | VM or container                   |
-| Debian              | VM or container                   |
-| CentOS / RHEL       | Docker container or VM            |
-| Windows (WSL2)      | WSL2 with Ubuntu or Linux distro  |
-| macOS               | VM or container                   |
-| Android (Termux)    | Termux (limited use)              |
+| Operating System | Supported | Notes                     |
+| ---------------- | --------- | ------------------------- |
+| Kali Linux       | ✅ Yes     | Fully tested              |
+| Parrot OS        | ✅ Yes     | Fully tested              |
+| Garuda Linux     | ✅ Yes     | Fully tested              |
+| Termux           | ✅ Yes     | Requires Python setup     |
+| Windows          | ⚠ Partial | May require WSL or Docker |
+| macOS            | ⚠ Partial | Docker recommended        |
 
 ---
 
-## Docker Image (Coming Soon)
+## Prerequisites
 
-* Minimal base image with Python and pinned dependencies.
-* Non-root user for safe execution.
-* Optional network modes for isolated testing.
+* Docker ≥ 20.10
+* Python ≥ 3.10 (for manual installation)
 
 ---
 
-## Usage Example
+## Installation & Setup
+
+### ✅ Recommended: Docker Deployment
+
+Docker ensures consistent setup, isolates dependencies, and simplifies execution across all platforms.
+
+#### 1. Pull the Docker Image
 
 ```bash
-python websploit.py --target in-scope.lab --mode passive --export json
-python websploit.py --target in-scope.lab --generate-msf
+docker pull deadshot0x7/webspoilt:latest
+```
+
+#### 2. Run Webspoilt Interactively
+
+```bash
+docker run -it deadshot0x7/webspoilt:latest
+```
+
+#### 3. Persist Results with Volume Mounting
+
+```bash
+docker run -it -v $(pwd)/results:/app/results deadshot0x7/webspoilt:latest
+```
+
+#### 4. Optional: Docker Compose Configuration
+
+```yaml
+version: '3.8'
+services:
+  webspoilt:
+    image: deadshot0x7/webspoilt:latest
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./results:/app/results
+      - ./config:/app/config
+```
+
+> Save this as `docker-compose.yml` and run:
+>
+> ```bash
+> docker-compose up -d
+> ```
+
+---
+
+### ⚙️ Manual Installation
+
+1. **Clone the Repository**
+
+```bash
+git clone https://github.com/Deadshot0x7/Webspoilt.git
+cd Webspoilt
+```
+
+2. **Install Dependencies**
+
+```bash
+pip install -r requirements.txt
+```
+
+3. **Run the Tool**
+
+```bash
+python Webspoilt.py
 ```
 
 ---
 
-## Donations / Support
+## Usage Guidelines
 
-Support development via:
+* **Authorized Use Only** – Ensure all testing is performed on assets you own or have explicit permission to test.
+* **Output Management** – Store results in a designated directory for later analysis.
 
-[![Donate via PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/paypalme/Deadshot0x7)
-**PayPal:** [https://paypal.me/deadshot0x7](https://paypal.me/deadshot0x7)
-**UPI ID (India):** `Sviquarahmed@okxis`
+---
+
+## Donation / Support
+
+If you find **Webspoilt** valuable and would like to support ongoing development and maintenance, contributions are greatly appreciated. Supported methods:
+
+* **BuyMeACoffee:** [https://buymeacoffee.com/Deadshot0x7](https://buymeacoffee.com/Deadshot0x7)
+* **PayPal (one-click):** [https://payapl.me/deadshot0x7](https://payapl.me/deadshot0x7)
+* **UPI[ IDNIA ] :** `sviquarahmed@okaxis`
+
+Contributions help cover hosting, development time, and future feature work. Thank you for your support.
+
+---
+
+## Contributing
+
+Contributions are welcome. Please fork the repository, implement your changes, and submit a pull request. Ensure code adheres to Python best practices.
 
 ---
 
 ## License
 
-MIT License. Contributors must ensure lawful and ethical use.
-
----
-
-## Disclaimer
-
-For educational and authorized security testing only. Obtain written permission before testing any third-party systems.
+This project is licensed under the **MIT License**. See the `LICENSE` file for details.
